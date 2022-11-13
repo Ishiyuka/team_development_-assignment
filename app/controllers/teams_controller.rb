@@ -9,6 +9,8 @@ class TeamsController < ApplicationController
   def assign_owner
     @team.update(owner_id: params[:owner_id])
     redirect_to team_path, notice: 'オーナー権限が移動しました!'
+    @user = User.find(@team.owner_id)
+    ContactMailer.contact_mail(@user).deliver
   end
 
   def show
